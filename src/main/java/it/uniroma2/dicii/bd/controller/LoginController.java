@@ -10,11 +10,10 @@ import java.io.IOException;
 public class LoginController implements Controller{
 
     private User usr;
+    private LoginView loginView = new LoginView();
 
     @Override
     public void start() {
-        LoginView loginView = new LoginView();
-
         try {
             usr = loginView.show();
         } catch (IOException e) {
@@ -28,7 +27,10 @@ public class LoginController implements Controller{
         }
     }
 
-    public User getUsr() {return usr;}
+    public boolean retry() {
+        return loginView.userChoice() == 1;
+    }
 
+    public User getUsr() {return usr;}
 
 }

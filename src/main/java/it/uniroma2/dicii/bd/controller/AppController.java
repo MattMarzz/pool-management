@@ -7,16 +7,23 @@ public class AppController implements Controller{
     @Override
     public void start() {
         User authUsr;
-
-        //authentication phase
+        boolean loop_cond= false;
         LoginController loginController = new LoginController();
-        loginController.start();
-        authUsr = loginController.getUsr();
+
+        do {
+            loginController.start();
+            authUsr = loginController.getUsr();
+            if(authUsr.getRole() != null)
+                loop_cond = false;
+            else if (loginController.retry()) {
+                loop_cond = true;
+            } else
+                System.exit(0);
+        } while (loop_cond);
 
         switch (authUsr.getRole()) {
             case SEGRETERIA -> new SegreteriaController().start();
             case TORNELLO -> new TornelloController().start();
-            default -> throw new RuntimeException("Credenziali errate.");
         }
 
     }

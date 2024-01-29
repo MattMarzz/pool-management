@@ -17,6 +17,11 @@ public class User {
         this.role = role;
     }
 
+    public User(String usr, String pwd) {
+        this.usr = usr;
+        this.pwd = pwd;
+    }
+
     public String getUsr() {
         return usr;
     }

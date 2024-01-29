@@ -24,15 +24,17 @@ public class UserDAO implements StdProcedureDAO<User>{
             cs.setString(1, usr.getUsr());
             cs.setString(2, usr.getPwd());
             cs.registerOutParameter(3, Types.INTEGER);
-            cs.executeQuery();
+            cs.execute();
 
             roleId = cs.getInt(3);
         } catch (SQLException e) {
             if(e.getErrorCode() == 1644) {
                 throw new ItemNotFoundException(e.getMessage() + ": Credenziali errate!");
+            } else {
+                e.printStackTrace();
             }
-
         }
+
         if(roleId != -1)
             usr.setRole(Role.getRole(roleId));
         return usr;

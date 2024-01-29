@@ -18,6 +18,11 @@ public class LoginView extends TemplateView{
         System.out.print("Inserisci password: ");
         String pwd = reader.readLine();
 
-        return new User(usr, pwd, null);
+        return new User(usr, pwd);
+    }
+
+    public int userChoice() {
+       return this.operationMenu("Come vuoi procedere?",
+                                    "Riprova", "Esci");
     }
 }
