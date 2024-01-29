@@ -78,12 +78,12 @@ public class SegreteriaView extends TemplateView{
         return mbr;
     }
 
-    public String cfSelection() throws IOException {
+    public String getDesiredIn(String title, String inMsg) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        printHeader("Visualizza iscrizioni");
+        printHeader(title);
 
-        System.out.print("Inserisci codice fiscale: ");
+        System.out.print(inMsg);
         return reader.readLine();
     }
 

@@ -6,6 +6,7 @@ import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
 import main.java.it.uniroma2.dicii.bd.model.Course;
 import main.java.it.uniroma2.dicii.bd.model.Member;
 import main.java.it.uniroma2.dicii.bd.model.dao.InsertMemberProcedureDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscribersProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscriptionsProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
 import main.java.it.uniroma2.dicii.bd.view.SegreteriaView;
@@ -54,9 +55,8 @@ public class SegreteriaController implements Controller{
 
     public void getCoursesByMember() {
         String cf;
-        List<Course> courses;
         try {
-            cf = segreteriaView.cfSelection();
+            cf = segreteriaView.getDesiredIn("Visualizza iscrizioni", "Inserisci codice fiscale: ");
         } catch (IOException e) {
             throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
         }
@@ -67,7 +67,19 @@ public class SegreteriaController implements Controller{
         }
     }
 
-    public void getMembersByCourse() {}
+    public void getMembersByCourse() {
+        String courseName;
+        try {
+            courseName = segreteriaView.getDesiredIn("Visualizza iscritti", "Inserisci nome corso: ");
+        } catch (IOException e) {
+            throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
+        }
+        try {
+            segreteriaView.printTable(new ViewSubscribersProcedureDAO().execute(courseName));
+        } catch (ItemNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void generateReport() {}
 }
