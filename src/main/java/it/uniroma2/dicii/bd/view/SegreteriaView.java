@@ -56,24 +56,15 @@ public class SegreteriaView extends TemplateView{
 
         System.out.print("Inserisci cellulare: ");
         String cell = reader.readLine();
-        if(cell.isBlank())
-            mbr.setCell(null);
-        else
-            mbr.setCell(cell);
+        mbr.setCell(cell);
 
         System.out.print("Inserisci telefono: ");
         String tel = reader.readLine();
-        if(cell.isBlank())
-            mbr.setTel(null);
-        else
-            mbr.setTel(tel);
+        mbr.setTel(tel);
 
         System.out.print("Inserisci email: ");
         String email = reader.readLine();
-        if(cell.isBlank())
-            mbr.setEmail(null);
-        else
-            mbr.setEmail(email);
+        mbr.setEmail(email);
 
         System.out.print("Inserisci nome del corso a cui si iscrive: ");
         String corso = reader.readLine();

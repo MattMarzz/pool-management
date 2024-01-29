@@ -103,7 +103,11 @@ public class Member {
     }
 
     public void setCell(String cell) {
-        this.cell = cell;
+        if (cell == null || cell.isBlank()) {
+            this.cell = null;
+        } else {
+            this.cell = cell;
+        }
     }
 
     public String getTel() {
@@ -111,7 +115,11 @@ public class Member {
     }
 
     public void setTel(String tel) {
-        this.tel = tel;
+        if (tel == null || tel.isBlank()) {
+            this.tel = null;
+        } else {
+            this.tel = tel;
+        }
     }
 
     public String getEmail() {
@@ -119,7 +127,11 @@ public class Member {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email == null || email.isBlank()) {
+            this.email = null;
+        } else {
+            this.email = email;
+        }
     }
 
     public String getCourse() {
