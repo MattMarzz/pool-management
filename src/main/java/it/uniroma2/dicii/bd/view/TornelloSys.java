@@ -5,7 +5,7 @@ public class TornelloSys extends TemplateView{
     public int userChoice() {
         printHeader("SIMULATION OF GATE SYSTEM");
         return operationMenu("Operazioni: ",
-                "Registra ccesso", "Esci");
+                "Registra accesso", "Esci");
     }
 
     public void printMsg(String msg) {
