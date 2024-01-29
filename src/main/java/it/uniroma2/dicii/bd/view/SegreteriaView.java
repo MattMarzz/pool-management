@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,25 +98,45 @@ public class SegreteriaView extends TemplateView{
 
         List<Method> getters = filterGetters(methods);
 
-        // table header
+        List<String> headers = new ArrayList<>();
+        List<Integer> columnWidths = new ArrayList<>();
+
+        // header and column weight
         for (Method getter : getters) {
-            System.out.print(getter.getName().substring(3) + "\t");
+            String header = getter.getName().substring(3);
+            headers.add(header);
+            int maxWidth = header.length();
+
+            for (T item : list) {
+                try {
+                    String valueString = String.valueOf(getter.invoke(item));
+                    maxWidth = Math.max(maxWidth, valueString.length());
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            }
+            columnWidths.add(maxWidth);
+        }
+
+        // print table header
+        for (int i = 0; i < headers.size(); i++) {
+            System.out.printf("%-" + columnWidths.get(i) + "s ", headers.get(i));
         }
         System.out.println();
 
-
-        for (Method getter : getters) {
-            System.out.print("--------");
+        for (int width : columnWidths) {
+            System.out.print("-".repeat(width) + " ");
         }
         System.out.println();
 
         // rows
         for (T item : list) {
-            for (Method getter : getters) {
+            for (int i = 0; i < getters.size(); i++) {
                 try {
-                    System.out.print(getter.invoke(item) + "\t");
+                    String valueString = String.valueOf(getters.get(i).invoke(item));
+                    System.out.printf("%-" + columnWidths.get(i) + "s ", valueString);
                 } catch (Exception e) {
-                    System.out.print("Errore" + "\t");
+                    System.out.print("Errore" + " ".repeat(columnWidths.get(i) - 6));
                 }
             }
             System.out.println();
