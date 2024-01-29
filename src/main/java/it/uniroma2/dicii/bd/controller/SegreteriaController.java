@@ -45,7 +45,7 @@ public class SegreteriaController implements Controller{
         }
     }
 
-    public void insertMember() {
+    private void insertMember() {
         Member mbr;
         try {
             mbr = segreteriaView.memberForm();
@@ -55,7 +55,7 @@ public class SegreteriaController implements Controller{
         System.out.println(new InsertMemberProcedureDAO().execute(mbr));
     }
 
-    public void getCoursesByMember() {
+    private void getCoursesByMember() {
         String cf;
         try {
             cf = segreteriaView.getDesiredIn("Visualizza iscrizioni", "Inserisci codice fiscale: ");
@@ -69,7 +69,7 @@ public class SegreteriaController implements Controller{
         }
     }
 
-    public void getMembersByCourse() {
+    private void getMembersByCourse() {
         String courseName;
         try {
             courseName = segreteriaView.getDesiredIn("Visualizza iscritti", "Inserisci nome corso: ");
@@ -83,9 +83,9 @@ public class SegreteriaController implements Controller{
         }
     }
 
-    public void generateReport() {
-        LocalDateTime startDate = segreteriaView.getDateTimeFromUser("Inserire data di inizio periodo: ");
-        LocalDateTime endDate = segreteriaView.getDateTimeFromUser("Inserire data di fine periodo: ");
+    private void generateReport() {
+        LocalDateTime startDate = segreteriaView.getDateTimeFromUser("Inserire data di inizio periodo (yyyy-MM-dd HH:mm:ss): ");
+        LocalDateTime endDate = segreteriaView.getDateTimeFromUser("Inserire data di fine periodo (yyyy-MM-dd HH:mm:ss) ");
         int[] v = new ReportProcedureDAO().execute(startDate, endDate);
         double ratio = ((double) v[1] / v[0]) * 100;
         segreteriaView.printReport(v[0], v[1], ratio);

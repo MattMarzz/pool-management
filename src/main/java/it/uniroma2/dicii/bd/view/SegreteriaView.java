@@ -83,15 +83,6 @@ public class SegreteriaView extends TemplateView{
         return mbr;
     }
 
-    public String getDesiredIn(String title, String inMsg) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        printHeader(title);
-
-        System.out.print(inMsg);
-        return reader.readLine();
-    }
-
     public LocalDateTime getDateTimeFromUser(String msg) {
         Scanner scanner = new Scanner(System.in);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -101,7 +92,6 @@ public class SegreteriaView extends TemplateView{
             try {
                 System.out.print(msg);
                 String input = scanner.nextLine();
-                input = input.replace(' ', 'T');
                 dateTime = LocalDateTime.parse(input, formatter);
             } catch (DateTimeParseException e) {
                 System.out.println("Utilizzare il formato 'yyyy-MM-dd HH:mm:ss'.");

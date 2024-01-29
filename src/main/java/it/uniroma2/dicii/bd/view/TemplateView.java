@@ -1,5 +1,8 @@
 package main.java.it.uniroma2.dicii.bd.view;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public abstract class TemplateView {
@@ -46,6 +49,15 @@ public abstract class TemplateView {
             }
         } while (choice == 0);
         return choice;
+    }
+
+    public String getDesiredIn(String title, String inMsg) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        printHeader(title);
+
+        System.out.print(inMsg);
+        return reader.readLine();
     }
 
 }
