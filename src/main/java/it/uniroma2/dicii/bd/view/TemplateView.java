@@ -2,7 +2,9 @@ package main.java.it.uniroma2.dicii.bd.view;
 
 import java.util.Scanner;
 
-public class TemplateView {
+public abstract class TemplateView {
+
+    public abstract int userChoice();
 
     protected void printHeader(String headerText) {
         int width = 50;
@@ -45,4 +47,5 @@ public class TemplateView {
         } while (choice == 0);
         return choice;
     }
+
 }

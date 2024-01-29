@@ -10,7 +10,7 @@ public class LoginView extends TemplateView{
 
     public User show() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        this.printHeader("Benvenuto nel sistema di login");
+        printHeader("Benvenuto nel sistema di login");
 
         System.out.print("Inserisci username: ");
         String usr = reader.readLine();
@@ -21,8 +21,9 @@ public class LoginView extends TemplateView{
         return new User(usr, pwd);
     }
 
+    @Override
     public int userChoice() {
-       return this.operationMenu("Come vuoi procedere?",
+       return operationMenu("Come vuoi procedere?",
                                     "Riprova", "Esci");
     }
 }
