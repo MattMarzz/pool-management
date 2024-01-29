@@ -6,6 +6,7 @@ import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
 import main.java.it.uniroma2.dicii.bd.model.Course;
 import main.java.it.uniroma2.dicii.bd.model.Member;
 import main.java.it.uniroma2.dicii.bd.model.dao.InsertMemberProcedureDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.ReportProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscribersProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscriptionsProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
@@ -13,6 +14,7 @@ import main.java.it.uniroma2.dicii.bd.view.SegreteriaView;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SegreteriaController implements Controller{
@@ -81,5 +83,11 @@ public class SegreteriaController implements Controller{
         }
     }
 
-    public void generateReport() {}
+    public void generateReport() {
+        LocalDateTime startDate = segreteriaView.getDateTimeFromUser("Inserire data di inizio periodo: ");
+        LocalDateTime endDate = segreteriaView.getDateTimeFromUser("Inserire data di fine periodo: ");
+        int[] v = new ReportProcedureDAO().execute(startDate, endDate);
+        double ratio = ((double) v[1] / v[0]) * 100;
+        segreteriaView.printReport(v[0], v[1], ratio);
+    }
 }

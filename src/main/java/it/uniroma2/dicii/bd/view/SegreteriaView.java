@@ -7,9 +7,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class SegreteriaView extends TemplateView{
@@ -86,6 +90,30 @@ public class SegreteriaView extends TemplateView{
 
         System.out.print(inMsg);
         return reader.readLine();
+    }
+
+    public LocalDateTime getDateTimeFromUser(String msg) {
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime dateTime = null;
+        while (dateTime == null) {
+            try {
+                System.out.print(msg);
+                String input = scanner.nextLine();
+                input = input.replace(' ', 'T');
+                dateTime = LocalDateTime.parse(input, formatter);
+            } catch (DateTimeParseException e) {
+                System.out.println("Utilizzare il formato 'yyyy-MM-dd HH:mm:ss'.");
+            }
+        }
+        return dateTime;
+    }
+
+    public void printReport(int expected, int effective, double ratio) {
+        System.out.println();
+        System.out.println("Nella fascia temporale specificata si sono registrati " + effective +
+                " accessi rispetto i " + expected + " previsti, ovvero il " + ratio + " %.");
     }
 
     public <T> void printTable(List<T> list) {
