@@ -35,6 +35,9 @@ public class ViewSubscribersProcedureDAO implements StdProcedureDAO<List<Member>
                 m.setCell(resultSet.getString("cellulare"));
                 m.setTel(resultSet.getString("telefono"));
                 m.setEmail(resultSet.getString("email"));
+                m.setComune(resultSet.getString("comune"));
+                m.setProvince(resultSet.getString("provincia"));
+                m.setCourse(courseName);
                 members.add(m);
             } while (resultSet.next());
 
