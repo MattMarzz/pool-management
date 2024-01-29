@@ -1,14 +1,18 @@
 package main.java.it.uniroma2.dicii.bd.controller;
 
 import main.java.it.uniroma2.dicii.bd.enums.Role;
+import main.java.it.uniroma2.dicii.bd.exception.ItemNotFoundException;
 import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
+import main.java.it.uniroma2.dicii.bd.model.Course;
 import main.java.it.uniroma2.dicii.bd.model.Member;
-import main.java.it.uniroma2.dicii.bd.model.dao.MemberDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.InsertMemberProcedureDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscriptionsProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
 import main.java.it.uniroma2.dicii.bd.view.SegreteriaView;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class SegreteriaController implements Controller{
 
@@ -30,24 +34,38 @@ public class SegreteriaController implements Controller{
                 case 2 -> getCoursesByMember();
                 case 3 -> getMembersByCourse();
                 case 4 -> generateReport();
-                case 5 -> System.exit(0);
+                case 5 -> {
+                    DbConnection.closeConnection();
+                    System.exit(0);
+                }
             }
         }
     }
 
     public void insertMember() {
         Member mbr;
-
         try {
             mbr = segreteriaView.memberForm();
         } catch (IOException e) {
             throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
         }
-
-        System.out.println(new MemberDAO().execute(mbr));
+        System.out.println(new InsertMemberProcedureDAO().execute(mbr));
     }
 
-    public void getCoursesByMember() {}
+    public void getCoursesByMember() {
+        String cf;
+        List<Course> courses;
+        try {
+            cf = segreteriaView.cfSelection();
+        } catch (IOException e) {
+            throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
+        }
+        try {
+            segreteriaView.printTable(new ViewSubscriptionsProcedureDAO().execute(cf));
+        } catch (ItemNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void getMembersByCourse() {}
 

@@ -6,6 +6,10 @@ import main.java.it.uniroma2.dicii.bd.model.Member;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SegreteriaView extends TemplateView{
     @Override
@@ -72,6 +76,56 @@ public class SegreteriaView extends TemplateView{
 
 
         return mbr;
+    }
+
+    public String cfSelection() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        printHeader("Visualizza iscrizioni");
+
+        System.out.print("Inserisci codice fiscale: ");
+        return reader.readLine();
+    }
+
+    public <T> void printTable(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            System.out.println("La lista è vuota.");
+            return;
+        }
+
+        Method[] methods = list.get(0).getClass().getDeclaredMethods();
+
+        List<Method> getters = filterGetters(methods);
+
+        // table header
+        for (Method getter : getters) {
+            System.out.print(getter.getName().substring(3) + "\t");
+        }
+        System.out.println();
+
+
+        for (Method getter : getters) {
+            System.out.print("--------");
+        }
+        System.out.println();
+
+        // rows
+        for (T item : list) {
+            for (Method getter : getters) {
+                try {
+                    System.out.print(getter.invoke(item) + "\t");
+                } catch (Exception e) {
+                    System.out.print("Errore" + "\t");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private static List<Method> filterGetters(Method[] methods) {
+        return Arrays.stream(methods)
+                .filter(m -> m.getName().startsWith("get") && m.getParameterCount() == 0)
+                .collect(Collectors.toList());
     }
 
 }

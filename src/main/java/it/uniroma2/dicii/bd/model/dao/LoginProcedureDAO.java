@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class UserDAO implements StdProcedureDAO<User>{
+public class LoginProcedureDAO implements StdProcedureDAO<User>{
 
 
     @Override

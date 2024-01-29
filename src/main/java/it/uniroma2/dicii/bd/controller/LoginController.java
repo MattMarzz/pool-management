@@ -2,7 +2,7 @@ package main.java.it.uniroma2.dicii.bd.controller;
 
 import main.java.it.uniroma2.dicii.bd.exception.ItemNotFoundException;
 import main.java.it.uniroma2.dicii.bd.model.User;
-import main.java.it.uniroma2.dicii.bd.model.dao.UserDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.LoginProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.view.LoginView;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class LoginController implements Controller{
         }
 
         try {
-            usr = new UserDAO().execute(usr);
+            usr = new LoginProcedureDAO().execute(usr);
         } catch (ItemNotFoundException e) {
             System.out.println(e.getMessage());
         }

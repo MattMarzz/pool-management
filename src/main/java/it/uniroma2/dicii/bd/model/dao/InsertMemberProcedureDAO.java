@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class MemberDAO implements StdProcedureDAO<String>{
+public class InsertMemberProcedureDAO implements StdProcedureDAO<String>{
     @Override
     public String execute(Object... params) {
         Member mbr = (Member) params[0];

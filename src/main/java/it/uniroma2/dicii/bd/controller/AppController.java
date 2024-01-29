@@ -1,6 +1,7 @@
 package main.java.it.uniroma2.dicii.bd.controller;
 
 import main.java.it.uniroma2.dicii.bd.model.User;
+import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
 
 public class AppController implements Controller{
 
@@ -17,8 +18,10 @@ public class AppController implements Controller{
                 loop_cond = false;
             else if (loginController.retry()) {
                 loop_cond = true;
-            } else
+            } else {
+                DbConnection.closeConnection();
                 System.exit(0);
+            }
         } while (loop_cond);
 
         switch (authUsr.getRole()) {
