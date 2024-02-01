@@ -3,7 +3,6 @@ package main.java.it.uniroma2.dicii.bd.controller;
 import main.java.it.uniroma2.dicii.bd.enums.Role;
 import main.java.it.uniroma2.dicii.bd.exception.ItemNotFoundException;
 import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
-import main.java.it.uniroma2.dicii.bd.model.Course;
 import main.java.it.uniroma2.dicii.bd.model.Member;
 import main.java.it.uniroma2.dicii.bd.model.dao.InsertMemberProcedureDAO;
 import main.java.it.uniroma2.dicii.bd.model.dao.ReportProcedureDAO;
@@ -15,7 +14,6 @@ import main.java.it.uniroma2.dicii.bd.view.SegreteriaView;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class SegreteriaController implements Controller{
 

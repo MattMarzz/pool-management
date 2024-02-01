@@ -1,11 +1,9 @@
 package main.java.it.uniroma2.dicii.bd.model.dao;
 
-import main.java.it.uniroma2.dicii.bd.exception.ItemNotFoundException;
 import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class ReportProcedureDAO implements StdProcedureDAO<int[]>{
     @Override
