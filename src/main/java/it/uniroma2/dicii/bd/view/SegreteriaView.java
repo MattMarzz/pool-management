@@ -1,12 +1,19 @@
 package main.java.it.uniroma2.dicii.bd.view;
 
 
+import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
+import main.java.it.uniroma2.dicii.bd.model.Course;
+import main.java.it.uniroma2.dicii.bd.model.Lesson;
 import main.java.it.uniroma2.dicii.bd.model.Member;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.sql.Date;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,7 +29,9 @@ public class SegreteriaView extends TemplateView{
         printHeader("SEGRETERIA ADMINISTRATION PANEL");
         return operationMenu("Che operazione desideri effettuare?",
                 "Inserisci membro", "Visualizza le iscrizioni per membro",
-                        "Visualizza membri iscritti ad un corso", "Effettua report", "Esci");
+                        "Visualizza membri iscritti ad un corso", "Effettua report",
+                        "Inserisci corso","Inserisci lezioni", "Visualizza tutti i corsi",
+                        "Visualizza tutti le lezioni", "Esci");
     }
 
     public Member memberForm() throws IOException {
@@ -79,8 +88,84 @@ public class SegreteriaView extends TemplateView{
         String corso = reader.readLine();
         mbr.setCourse(corso);
 
-
         return mbr;
+    }
+
+    public Course courseForm() throws IOException {
+        Course csr = new Course();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        printHeader("Inserisci informazioni corso");
+
+        System.out.print("Inserisci nome: ");
+        csr.setName(reader.readLine());
+
+        System.out.print("Inserisci costo (xx.xx): ");
+        csr.setCosto(Double.parseDouble(reader.readLine()));
+
+        System.out.print("Inserisci data inizio (yyyy-MM-dd): ");
+        csr.setStartDate(stringToDate(reader.readLine()));
+
+        System.out.println("Inserisci numero minimo iscritti: ");
+        csr.setMinSub(Integer.parseInt(reader.readLine()));
+
+        System.out.println("Inserisci numero massimo iscritti: ");
+        csr.setMaxSub(Integer.parseInt(reader.readLine()));
+
+        return csr;
+    }
+
+    public Lesson lessonForm() throws IOException {
+        Lesson lsn = new Lesson();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        printHeader("Inserisci programmazione lezioni");
+
+        System.out.print("Inserisci corso di riferimento: ");
+        lsn.setCourse(reader.readLine());
+
+        System.out.print("Inserisci la lista dei giorni settimanale separati da virgola\n" +
+                "(p.e: monday,wednesday,friday): ");
+        lsn.setCommaDays(reader.readLine());
+
+        System.out.print("Inserisci la vasca: ");
+        lsn.setTub(reader.readLine());
+
+        System.out.print("Inserisci ora inizio (hh:mm:ss): ");
+        lsn.setStartAt(stringToTime(reader.readLine()));
+
+        System.out.print("Inserisci ora fine (hh:mm:ss): ");
+        lsn.setEndAt(stringToTime(reader.readLine()));
+
+        return lsn;
+    }
+
+
+    public Time stringToTime(String str) {
+        String pattern = "HH:mm:ss";
+        SimpleDateFormat timeFormat = new SimpleDateFormat(pattern);
+        Time time = null;
+        try {
+            java.util.Date date = timeFormat.parse(str);
+
+            time = new Time(date.getTime());
+        } catch (ParseException e) {
+            System.out.println("Utilizzare il formato 'yyyy-MM-dd.");
+        }
+        return time;
+    }
+
+    public Date stringToDate(String str) {
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+        Date date = null;
+        try {
+            // Parsing della stringa in un oggetto Date
+            date = new java.sql.Date(dateFormat.parse(str).getTime());
+        } catch (ParseException e) {
+            System.out.println("Utilizzare il formato 'yyyy-MM-dd.");
+        }
+        return date;
     }
 
     public LocalDateTime getDateTimeFromUser(String msg) {

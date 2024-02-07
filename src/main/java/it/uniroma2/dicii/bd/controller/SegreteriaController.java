@@ -3,11 +3,10 @@ package main.java.it.uniroma2.dicii.bd.controller;
 import main.java.it.uniroma2.dicii.bd.enums.Role;
 import main.java.it.uniroma2.dicii.bd.exception.ItemNotFoundException;
 import main.java.it.uniroma2.dicii.bd.exception.NotValidDataException;
+import main.java.it.uniroma2.dicii.bd.model.Course;
+import main.java.it.uniroma2.dicii.bd.model.Lesson;
 import main.java.it.uniroma2.dicii.bd.model.Member;
-import main.java.it.uniroma2.dicii.bd.model.dao.InsertMemberProcedureDAO;
-import main.java.it.uniroma2.dicii.bd.model.dao.ReportProcedureDAO;
-import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscribersProcedureDAO;
-import main.java.it.uniroma2.dicii.bd.model.dao.ViewSubscriptionsProcedureDAO;
+import main.java.it.uniroma2.dicii.bd.model.dao.*;
 import main.java.it.uniroma2.dicii.bd.utils.DbConnection;
 import main.java.it.uniroma2.dicii.bd.view.SegreteriaView;
 
@@ -35,7 +34,11 @@ public class SegreteriaController implements Controller{
                 case 2 -> getCoursesByMember();
                 case 3 -> getMembersByCourse();
                 case 4 -> generateReport();
-                case 5 -> {
+                case 5 -> insertCourse();
+                case 6 -> insertLessons();
+                case 7 -> getAllCourses();
+                case 8 -> getAllLessons();
+                case 9 -> {
                     DbConnection.closeConnection();
                     System.exit(0);
                 }
@@ -51,6 +54,26 @@ public class SegreteriaController implements Controller{
             throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
         }
         System.out.println(new InsertMemberProcedureDAO().execute(mbr));
+    }
+
+    private void insertCourse() {
+        Course crs;
+        try {
+            crs = segreteriaView.courseForm();
+        } catch (IOException e) {
+            throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
+        }
+        System.out.println(new InsertCourseProcedureDAO().execute(crs));
+    }
+
+    private void insertLessons() {
+        Lesson lsn;
+        try {
+            lsn = segreteriaView.lessonForm();
+        } catch (IOException e) {
+            throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
+        }
+        System.out.println(new InsertLessonsProcedureDAO().execute(lsn));
     }
 
     private void getCoursesByMember() {
@@ -87,5 +110,13 @@ public class SegreteriaController implements Controller{
         int[] v = new ReportProcedureDAO().execute(startDate, endDate);
         double ratio = ((double) v[1] / v[0]) * 100;
         segreteriaView.printReport(v[0], v[1], ratio);
+    }
+
+    private void getAllCourses() {
+        segreteriaView.printTable(new ViewCoursesProcedureDAO().execute());
+    }
+
+    private void getAllLessons() {
+        segreteriaView.printTable(new ViewLessonsProcedureDAO().execute());
     }
 }
