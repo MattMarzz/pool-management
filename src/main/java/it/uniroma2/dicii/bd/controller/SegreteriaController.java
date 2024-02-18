@@ -38,7 +38,8 @@ public class SegreteriaController implements Controller{
                 case 6 -> insertLessons();
                 case 7 -> getAllCourses();
                 case 8 -> getAllLessons();
-                case 9 -> {
+                case 9 -> addSubscription();
+                case 10 -> {
                     DbConnection.closeConnection();
                     System.exit(0);
                 }
@@ -54,6 +55,19 @@ public class SegreteriaController implements Controller{
             throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
         }
         System.out.println(new InsertMemberProcedureDAO().execute(mbr));
+    }
+
+    private void addSubscription() {
+        String cf;
+        String courseName;
+        try {
+            cf = segreteriaView.getDesiredIn("Membro", "Inserire cf membro: ");
+            courseName = segreteriaView.getDesiredIn("Corso", "Inserire nome corso: ");
+        } catch (IOException e) {
+            throw new NotValidDataException("Dati inseriti non validi: " + e.getMessage());
+        }
+
+        System.out.println(new AddSubscriptionProcedureDAO().execute(cf, courseName));
     }
 
     private void insertCourse() {

@@ -31,7 +31,7 @@ public class SegreteriaView extends TemplateView{
                 "Inserisci membro", "Visualizza le iscrizioni per membro",
                         "Visualizza membri iscritti ad un corso", "Effettua report",
                         "Inserisci corso","Inserisci lezioni", "Visualizza tutti i corsi",
-                        "Visualizza tutti le lezioni", "Esci");
+                        "Visualizza tutti le lezioni", "Aggiungi iscrizione", "Esci");
     }
 
     public Member memberForm() throws IOException {
@@ -223,14 +223,14 @@ public class SegreteriaView extends TemplateView{
 
         // print table header
         for (int i = 0; i < headers.size(); i++) {
-            System.out.printf("%-" + columnWidths.get(i) + "s ", headers.get(i));
+            System.out.printf("\033[35m%-" + columnWidths.get(i) + "s ", headers.get(i));
         }
         System.out.println();
 
         for (int width : columnWidths) {
             System.out.print("-".repeat(width) + " ");
         }
-        System.out.println();
+        System.out.println("\033[0m");
 
         // rows
         for (T item : list) {

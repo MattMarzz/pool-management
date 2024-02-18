@@ -14,13 +14,13 @@ public abstract class TemplateView {
         String border = new String(new char[width]).replace("\0", "-");
 
         System.out.println();
-        System.out.println(border);
+        System.out.println("\033[36m" + border);
         int leftPadding = (width - headerText.length()) / 2;
         for (int i = 0; i < leftPadding; i++) {
             System.out.print(" ");
         }
         System.out.println(headerText);
-        System.out.println(border);
+        System.out.println(border + "\033[0m");
     }
 
     protected int operationMenu(String title, String... options) {
@@ -28,7 +28,7 @@ public abstract class TemplateView {
         int choice = 0;
 
         System.out.println();
-        System.out.println("--- " + title + " ---");
+        System.out.println("\033[34m--- " + title + " ---\033[0m");
         for (int i = 0; i < options.length; i++) {
             System.out.println((i + 1) + ") " + options[i]);
         }
